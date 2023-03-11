@@ -88,8 +88,7 @@ class PlotWidget(QWidget):
         self.canvas.draw()
 
     def plot_testFunc(self):
-        function = getdata_testFunc1(self.N, -1, 0)
-        function2 = getdata_testFunc2(self.N, 0, 1)
+        function = getdata_testFunc(self.N, -1, 1)
 
         x = function[0]
         y1 = function[1]
@@ -100,40 +99,24 @@ class PlotWidget(QWidget):
         y6 = function[8]
         y7 = function[9]
 
-        x_2 = function2[0]
-        y1_2 = function2[1]
-        y2_2 = function2[2]
-        y3_2 = function2[3]
-        y4_2 = function2[5]
-        y5_2 = function2[7]
-        y6_2 = function2[8]
-        y7_2 = function2[9]
-
         self.figure.clear()
         ax = self.figure.add_subplot(111)
         ax.set_facecolor('#DCDCDC')
 
         if self.flag1 == True:
             ax.plot(x, y1, linewidth=0.7, linestyle='-', color='red')
-            ax.plot(x_2, y1_2, linewidth=0.7, linestyle='-', color='red')
         if self.flag2 == True:
             ax.plot(x, y2, linewidth=0.7, linestyle='-', color='blue')
-            ax.plot(x_2, y2_2, linewidth=0.7, linestyle='-', color='blue')
         if self.flag3 == True:
             ax.plot(x, y3, linewidth=0.7, linestyle='-', color='purple')
-            ax.plot(x_2, y3_2, linewidth=0.7, linestyle='-', color='purple')
         if self.flag4 == True:
             ax.plot(x, y4, linewidth=0.7, linestyle='-', color='brown')
-            ax.plot(x_2, y4_2, linewidth=0.7, linestyle='-', color='brown')
         if self.flag5 == True:
             ax.plot(x, y5, linewidth=0.7, linestyle='-', color='yellow')
-            ax.plot(x_2, y5_2, linewidth=0.7, linestyle='-', color='yellow')
         if self.flag6 == True:
             ax.plot(x, y6, linewidth=0.7, linestyle='-', color='orange')
-            ax.plot(x_2, y6_2, linewidth=0.7, linestyle='-', color='orange')
         if self.flag7 == True:
             ax.plot(x, y7, linewidth=0.7, linestyle='-', color='black')
-            ax.plot(x_2, y7_2, linewidth=0.7, linestyle='-', color='black')
         self.canvas.draw()
 
     def plot_var1_period(self):
@@ -850,19 +833,13 @@ class Ui_MainWindow(object):
         self.graph_widget.figure.clear()
         self.graph_widget.canvas.draw()
 
-
     def setTable(self):
 
         if self.tasks_comboBox.currentIndex() == 0:
-            List = test_func.getdata_testFunc1(PlotWidget.N, -1, 0)
-            List2 = test_func.getdata_testFunc2(PlotWidget.N, 0, 1)
-            a = len(List[0])
-            b = len(List2[0])
-            c = len(List[14])
-            d = len(List2[14])
-            self.tableWidget.setRowCount(len(List[14]) - 1 + len(List2[14]) - 1)
-            self.tableWidget_2.setRowCount(len(List[0]) + len(List2[0]))
-            for i in range(a):
+            List = test_func.getdata_testFunc(PlotWidget.N, -1, 1)
+            self.tableWidget.setRowCount(len(List[14]) - 1)
+            self.tableWidget_2.setRowCount(len(List[0]))
+            for i in range(len(List[0])):
                 self.tableWidget_2.setItem(i, 0, QTableWidgetItem(str(i)))
                 self.tableWidget_2.setItem(i, 1, QTableWidgetItem(str(List[0][i])))
                 self.tableWidget_2.setItem(i, 2, QTableWidgetItem(str(List[2][i])))
@@ -875,20 +852,7 @@ class Ui_MainWindow(object):
                 self.tableWidget_2.setItem(i, 9, QTableWidgetItem(str(List[5][i])))
                 self.tableWidget_2.setItem(i, 10, QTableWidgetItem(str(List[9][i])))
 
-            for i in range(b):
-                self.tableWidget_2.setItem(a + i, 0, QTableWidgetItem(str(a + i)))
-                self.tableWidget_2.setItem(a + i, 1, QTableWidgetItem(str(List2[0][i])))
-                self.tableWidget_2.setItem(a + i, 2, QTableWidgetItem(str(List2[2][i])))
-                self.tableWidget_2.setItem(a + i, 3, QTableWidgetItem(str(List2[1][i])))
-                self.tableWidget_2.setItem(a + i, 4, QTableWidgetItem(str(List2[7][i])))
-                self.tableWidget_2.setItem(a + i, 5, QTableWidgetItem(str(List2[4][i])))
-                self.tableWidget_2.setItem(a + i, 6, QTableWidgetItem(str(List2[3][i])))
-                self.tableWidget_2.setItem(a + i, 7, QTableWidgetItem(str(List2[8][i])))
-                self.tableWidget_2.setItem(a + i, 8, QTableWidgetItem(str(List2[6][i])))
-                self.tableWidget_2.setItem(a + i, 9, QTableWidgetItem(str(List2[5][i])))
-                self.tableWidget_2.setItem(a + i, 10, QTableWidgetItem(str(List2[9][i])))
-
-            for i in range(1, c):
+            for i in range(1, len(List[14])):
                 self.tableWidget.setItem(i - 1, 0, QTableWidgetItem(str(i)))
                 self.tableWidget.setItem(i - 1, 1, QTableWidgetItem(str(List[14][i - 1])))
                 self.tableWidget.setItem(i - 1, 2, QTableWidgetItem(str(List[14][i])))
@@ -896,14 +860,6 @@ class Ui_MainWindow(object):
                 self.tableWidget.setItem(i - 1, 4, QTableWidgetItem(str(List[11][i - 1])))
                 self.tableWidget.setItem(i - 1, 5, QTableWidgetItem(str(List[12][i])))
                 self.tableWidget.setItem(i - 1, 6, QTableWidgetItem(str(List[13][i - 1])))
-            for i in range(1, d):
-                self.tableWidget.setItem(c + i - 2, 0, QTableWidgetItem(str(i)))
-                self.tableWidget.setItem(c + i - 2, 1, QTableWidgetItem(str(List2[14][i - 1])))
-                self.tableWidget.setItem(c + i - 2, 2, QTableWidgetItem(str(List2[14][i])))
-                self.tableWidget.setItem(c + i - 2, 3, QTableWidgetItem(str(List2[10][i])))
-                self.tableWidget.setItem(c + i - 2, 4, QTableWidgetItem(str(List2[11][i - 1])))
-                self.tableWidget.setItem(c + i - 2, 5, QTableWidgetItem(str(List2[12][i])))
-                self.tableWidget.setItem(c + i - 2, 6, QTableWidgetItem(str(List2[13][i - 1])))
 
         if self.tasks_comboBox.currentIndex() == 1:
             List = var1.getdata_var1(PlotWidget.N, 2, 4)
@@ -1124,15 +1080,9 @@ class Ui_MainWindow(object):
         self.d2rSpline_2.setText('0')
 
         if self.tasks_comboBox.currentIndex() == 0:
-            List = test_func.getdata_testFunc1(PlotWidget.N, -1, 0)
-            List2 = test_func.getdata_testFunc2(PlotWidget.N, 0, 1)
-
-            self.n_label.setText(str(len(List[14])+len(List2[14])))
-            self.N_label.setText(str(len(List[0])+len(List2[0])))
-
-            #a = max(List[7])
-            #b = max(List2[7])
-            #c = max(a,b)
+            List = test_func.getdata_testFunc(PlotWidget.N, -1, 1)
+            self.n_label.setText(str(len(List[14])))
+            self.N_label.setText(str(len(List[0])))
 
             self.rSpline.setText(str(max(List[7])))
             self.rSplineX.setText(str(List[0][List[7].index(max(List[7]))]))
@@ -1142,7 +1092,6 @@ class Ui_MainWindow(object):
 
             self.d2rSpline.setText(str(max(List[9])))
             self.d2rSpline_2.setText(str(List[0][List[9].index(max(List[9]))]))
-
 
         if self.tasks_comboBox.currentIndex() == 1:
             List = var1.getdata_var1(PlotWidget.N, 2, 4)
@@ -1259,53 +1208,53 @@ class Ui_MainWindow(object):
     def onCheckBox_Toggled(self):
         if self.spline_graph.isChecked():
             PlotWidget.flag1 = True
-            #print(PlotWidget.flag1)
+            # print(PlotWidget.flag1)
         else:
             PlotWidget.flag1 = False
-            #print(PlotWidget.flag1)
+            # print(PlotWidget.flag1)
 
         if self.func_graph.isChecked():
             PlotWidget.flag2 = True
-            #print(PlotWidget.flag2)
+            # print(PlotWidget.flag2)
         else:
             PlotWidget.flag2 = False
-            #print(PlotWidget.flag2)
+            # print(PlotWidget.flag2)
 
         if self.df_graph.isChecked():
             PlotWidget.flag3 = True
-            #print(PlotWidget.flag3)
+            # print(PlotWidget.flag3)
         else:
             PlotWidget.flag3 = False
-            #print(PlotWidget.flag3)
+            # print(PlotWidget.flag3)
 
         if self.d2f_graph.isChecked():
             PlotWidget.flag4 = True
-            #print(PlotWidget.flag4)
+            # print(PlotWidget.flag4)
         else:
             PlotWidget.flag4 = False
-            #print(PlotWidget.flag4)
+            # print(PlotWidget.flag4)
 
         if self.rSpline_graph.isChecked():
             PlotWidget.flag5 = True
-            #print(PlotWidget.flag5)
+            # print(PlotWidget.flag5)
         else:
             PlotWidget.flag5 = False
-            #print(PlotWidget.flag5)
+            # print(PlotWidget.flag5)
 
         if self.drSpline_graph.isChecked():
             PlotWidget.flag6 = True
-            #print(PlotWidget.flag6)
+            # print(PlotWidget.flag6)
         else:
             PlotWidget.flag6 = False
-            #print(PlotWidget.flag6)
+            # print(PlotWidget.flag6)
 
         if self.d2rSpline_graph.isChecked():
             PlotWidget.flag7 = True
-            #print(PlotWidget.flag7)
+            # print(PlotWidget.flag7)
         else:
             PlotWidget.flag7 = False
-            #print(PlotWidget.flag7)
-        #print()
+            # print(PlotWidget.flag7)
+        # print()
 
 
 if __name__ == "__main__":

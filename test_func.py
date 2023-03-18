@@ -48,14 +48,14 @@ def setSolveVector(N, a, b):
     Solve = []
     h = (b - a) / (N - 1)
     x = a + h
-    Solve.append(6 * d2_f_test1(a))
+    Solve.append(0)
     for i in range(N - 2):
         if x <= 0:
             Solve.append(6 * ((f_test1(x + h) - f_test1(x)) / h - (f_test1(x) - f_test1(x - h)) / h))
         else:
             Solve.append(6 * ((f_test2(x + h) - f_test2(x)) / h - (f_test2(x) - f_test2(x - h)) / h))
         x += h
-    Solve.append(6 * d2_f_test1(b))
+    Solve.append(0)
 
     return Solve
 
@@ -159,18 +159,26 @@ def createSpline(n, a, b):
     List_d = GetCoefficients(n, a, b)[3]
 
     List_X = []
+    List_X_tmp = []
 
     List_X.append(x0)
     for i in range(n):
         List_x.append(np.linspace(x0, x0 + h1, 10))
         x0 += h1
         List_X.append(x0)
+
+    for i in range(n):
+        for j in range(9):
+            List_X_tmp.append(List_x[i][j])
+
     # x0 = 2
     x0 = a + h1
     for i in range(1, n + 1):
         List_S.append(List_a[i] + List_b[i - 1] * (List_x[i - 1] - x0) + (List_c[i] / 2) * (List_x[i - 1] - x0) ** 2 + (
                 List_d[i - 1] / 6) * (List_x[i - 1] - x0) ** 3)
+
         if x0 <= 0:
+        #if List_x[i - 1] <= 0:
             List_F.append(f_test1(List_x[i - 1]))
             List_dF.append(d_f_test1(List_x[i - 1]))
             List_d2F.append(d2_f_test1(List_x[i - 1]))
@@ -257,4 +265,3 @@ def getdata_testFunc(N, a, b):
     List_d2S.append(List_d2s[N - 1][9])
 
     return List_X, List_S, List_F, List_dS, List_dF, List_d2S, List_d2F, List_R, List_dR, List_d2R, List_a, List_b, List_c, List_d, List_Xy
-
